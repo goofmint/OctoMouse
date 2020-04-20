@@ -49,8 +49,8 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
                                              repeats:YES];
 
     id leftMouseDownHandler = ^(NSEvent *evt) {
-        [_globalLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
-        [_todayLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
+        [self->_globalLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
+        [self->_todayLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
         [self notify];
 
         return evt;
@@ -59,8 +59,8 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
     _globalMonitorLeftMouseDown = [NSEvent addGlobalMonitorForEventsMatchingMask:NSLeftMouseDownMask handler:leftMouseDownHandler];
 
     id rightMouseDownHandler = ^(NSEvent *evt) {
-        [_globalLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
-        [_todayLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
+        [self->_globalLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
+        [self->_todayLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
         [self notify];
         return evt;
     };
@@ -68,8 +68,8 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
     _globalMonitorRightMouseDown = [NSEvent addGlobalMonitorForEventsMatchingMask:NSRightMouseDownMask handler:rightMouseDownHandler];
 
     id mouseMovedHandler = ^(NSEvent *evt) {
-        [_globalLogger newMouseLocation:[NSEvent mouseLocation]];
-        [_todayLogger newMouseLocation:[NSEvent mouseLocation]];
+        [self->_globalLogger newMouseLocation:[NSEvent mouseLocation]];
+        [self->_todayLogger newMouseLocation:[NSEvent mouseLocation]];
         [self notify];
 
         return evt;
@@ -78,8 +78,8 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
     _globalMonitorMouseMoved =[NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:mouseMovedHandler];
 
     id scrollWheelHandler = ^(NSEvent *evt) {
-        [_globalLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
-        [_todayLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
+        [self->_globalLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
+        [self->_todayLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
         [self notify];
         return evt;
     };
@@ -88,8 +88,8 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
     id keyDownHandler = ^(NSEvent *evt) {
         if(![evt isARepeat]) {
-            [_globalLogger incKeyDown:[evt keyCode]];
-            [_todayLogger incKeyDown:[evt keyCode]];
+            [self->_globalLogger incKeyDown:[evt keyCode]];
+            [self->_todayLogger incKeyDown:[evt keyCode]];
             [self notify];
         }
         return evt;
