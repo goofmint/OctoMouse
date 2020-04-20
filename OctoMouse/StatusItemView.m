@@ -65,9 +65,9 @@
             return;
         
         InputEventsLogger* today = [[InputEventsController shared] todayLogger];
+//        InputEventsLogger* global = [[InputEventsController shared] globalLogger]; // total distance so far
         int mouseDown = [today mouseDown];
         NSString* mouseDownText = [NSString stringWithFormat:@"%d", mouseDown];
-        
         NSString* mouseDistanceText = [today formattedMouseDistance:distanceUnit];
         
         int keyDown = [today keyDown];

@@ -30,14 +30,14 @@ void *kContextActivePanel = &kContextActivePanel;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    // Load preferences
+    // Load preferencesffeff
     Preferences *preferences = [Preferences shared];
     [preferences load];
     
     // Set launch at startup by default
     if([preferences isFirstLaunch]) {
         [preferences setLaunchAtStartup:YES];
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: SUPPORT_URL]];
+//        [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: SUPPORT_URL]];
     }
     
     // Start listening user inputs

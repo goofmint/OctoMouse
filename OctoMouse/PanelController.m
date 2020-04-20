@@ -326,7 +326,7 @@
 }
 
 - (IBAction)supportUs:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: SUPPORT_URL]];
+//    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: SUPPORT_URL]];
 }
 
 - (void)aboutDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
