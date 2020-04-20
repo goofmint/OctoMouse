@@ -15,7 +15,7 @@
     
     NSScreen *screen = [NSScreen mainScreen];
     NSDictionary *description = [screen deviceDescription];
-    CGSize displayPhysicalSize = CGDisplayScreenSize(                                                    [[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
+    CGSize displayPhysicalSize = CGDisplayScreenSize([[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
     NSSize displayPointsSize = [screen frame].size;
     _pointsPerMeter = (displayPhysicalSize.width * 0.001) / displayPointsSize.width;
     

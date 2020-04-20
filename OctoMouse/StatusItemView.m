@@ -64,15 +64,15 @@
         if(iconSize.width == 0)
             return;
         
-        InputEventsLogger* global = [[InputEventsController shared] globalLogger];
-        int mouseDown = [global mouseDown];
+        InputEventsLogger* today = [[InputEventsController shared] todayLogger];
+        int mouseDown = [today mouseDown];
         NSString* mouseDownText = [NSString stringWithFormat:@"%d", mouseDown];
         
-        NSString* mouseDistanceText = [global formattedMouseDistance:distanceUnit];
+        NSString* mouseDistanceText = [today formattedMouseDistance:distanceUnit];
         
-        int keyDown = [global keyDown];
+        int keyDown = [today keyDown];
         NSString* keyDownText = [NSString stringWithFormat:@"%d", keyDown];
-        NSString* elapsedTimeText = [global formattedElapsedTime];
+        NSString* elapsedTimeText = [today formattedElapsedTime];
         
         NSString* longestMouseText;
         if([mouseDownText length] > [mouseDistanceText length])
