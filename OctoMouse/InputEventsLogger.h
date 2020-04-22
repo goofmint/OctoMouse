@@ -14,6 +14,8 @@
     
     double _mouseMovedTimestamp;
     NSPoint _lastMouseLocation;
+    
+    BOOL _status;
 }
 
 @property(readonly) float mouseDistance;
@@ -42,5 +44,7 @@
 - (float)scrollWheelDistanceInKilometers;
 - (float)scrollWheelDistanceInMiles;
 - (NSString*)formattedScrollWheelDistance:(int)distanceUnit;
+- (BOOL)getStatus;
+- (void)setStatus:(int)bin;
 
 @end

@@ -30,7 +30,7 @@ void *kContextActivePanel = &kContextActivePanel;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification
 {
-    // Load preferencesffeff
+    // Load preferences
     Preferences *preferences = [Preferences shared];
     [preferences load];
     

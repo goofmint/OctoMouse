@@ -325,7 +325,20 @@
     [_enableAccessibilityMenuItem setHidden:enable];
 }
 
+- (IBAction)enableWorkStatus:(id)sender {
+//    printf("WORKING\n");
+    InputEventsLogger* today = [[InputEventsController shared] todayLogger];
+    [today setStatus:0];
+}
+
+- (IBAction)enableLeisureStatus:(id)sender {
+//    printf("LEISURING\n");
+    InputEventsLogger* today = [[InputEventsController shared] todayLogger];
+    [today setStatus:1];
+}
+
 - (IBAction)supportUs:(id)sender {
+//    printf("WORKING!!!");
 //    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString: SUPPORT_URL]];
 }
 

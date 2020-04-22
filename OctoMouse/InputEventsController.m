@@ -31,7 +31,7 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
         _todayLogger = [[InputEventsLogger alloc] initWithIdentifier:today];
         [_todayLogger load];
 
-        NSString *yesterday = [self formatDate:[now dateByAddingTimeInterval: -86400.0]];
+        NSString *yesterday = [self formatDate:now];
         _yesterdayLogger = [[InputEventsLogger alloc] initWithIdentifier:yesterday];
         [_yesterdayLogger load];
     }
@@ -50,7 +50,12 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
     id leftMouseDownHandler = ^(NSEvent *evt) {
         [self->_globalLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
-        [self->_todayLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
+        if([self->_todayLogger getStatus]) {
+            [self->_todayLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
+        }
+        else {
+            [self->_yesterdayLogger incMouseDownWithButton:0 location:[NSEvent mouseLocation]];
+        }
         [self notify];
 
         return evt;
@@ -60,7 +65,12 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
     id rightMouseDownHandler = ^(NSEvent *evt) {
         [self->_globalLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
-        [self->_todayLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
+        if([self->_todayLogger getStatus]) {
+            [self->_todayLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
+        }
+        else {
+            [self->_yesterdayLogger incMouseDownWithButton:1 location:[NSEvent mouseLocation]];
+        }
         [self notify];
         return evt;
     };
@@ -69,7 +79,12 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
     id mouseMovedHandler = ^(NSEvent *evt) {
         [self->_globalLogger newMouseLocation:[NSEvent mouseLocation]];
-        [self->_todayLogger newMouseLocation:[NSEvent mouseLocation]];
+        if([self->_todayLogger getStatus]) {
+            [self->_todayLogger newMouseLocation:[NSEvent mouseLocation]];
+        }
+        else {
+            [self->_yesterdayLogger newMouseLocation:[NSEvent mouseLocation]];
+        }
         [self notify];
 
         return evt;
@@ -79,7 +94,12 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
     id scrollWheelHandler = ^(NSEvent *evt) {
         [self->_globalLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
-        [self->_todayLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
+        if([self->_todayLogger getStatus]) {
+            [self->_todayLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
+        }
+        else {
+            [self->_yesterdayLogger incScrollWheelWithDeltaX:[evt deltaX] deltaY:[evt deltaY] deltaZ:[evt deltaZ]];
+        }
         [self notify];
         return evt;
     };
@@ -89,7 +109,12 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
     id keyDownHandler = ^(NSEvent *evt) {
         if(![evt isARepeat]) {
             [self->_globalLogger incKeyDown:[evt keyCode]];
-            [self->_todayLogger incKeyDown:[evt keyCode]];
+            if([self->_todayLogger getStatus]) {
+                [self->_todayLogger incKeyDown:[evt keyCode]];
+            }
+            else {
+                [self->_yesterdayLogger incKeyDown:[evt keyCode]];
+            }
             [self notify];
         }
         return evt;
@@ -116,31 +141,35 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
     [_globalLogger save];
     [_todayLogger save];
+    [_yesterdayLogger save];
 }
 
 - (void)incElapsedSecond:(NSTimer*)timer {
     [_globalLogger incElapsedSecond];
     [_todayLogger incElapsedSecond];
+    [_yesterdayLogger incElapsedSecond];
     [self notify];
 
     if([_globalLogger elapsedTime] % 60 == 0) {
         // Back up
-        [_globalLogger save];
-        [_todayLogger save];
+//        [_globalLogger save];
+//        [_todayLogger save];
 
         // If it's a new day, the logger will be reset
         NSDate *now = [[NSDate alloc] init];
         NSString *today = [self formatDate:now];
+        NSString *yesterday = [self formatDate:now];
         if(![today isEqualToString:[_todayLogger identifier]]) {
-            [_todayLogger save];
+//            [_todayLogger save];
             [_todayLogger setIdentifier:today];
             [_todayLogger reset];
-            [_todayLogger load];
-
-            NSString *yesterday = [self formatDate:[now dateByAddingTimeInterval: -86400.0]];
+//            [_todayLogger load];
+            [_globalLogger setIdentifier:today];
+            [_globalLogger reset];
+//            [_globalLogger load];
             [_yesterdayLogger setIdentifier:yesterday];
             [_yesterdayLogger reset];
-            [_yesterdayLogger load];
+//            [_yesterdayLogger load];
         }
     }
 }

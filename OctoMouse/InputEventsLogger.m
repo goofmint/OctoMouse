@@ -6,7 +6,22 @@
 
 @implementation InputEventsLogger
 
--(id) initWithIdentifier:(NSString *)identifier {
+-(BOOL)getStatus {
+    return _status;
+}
+
+-(void)setStatus:(int)bin {
+    if (bin == 1) {
+        _status = false;
+        printf("not working\n");
+    }
+    else {
+        _status = true;
+        printf("working\n");
+    }
+}
+
+-(id)initWithIdentifier:(NSString *)identifier {
     _identifier = identifier;
     
     _lastMouseLocation = [NSEvent mouseLocation];
@@ -15,8 +30,7 @@
     
     NSScreen *screen = [NSScreen mainScreen];
     NSDictionary *description = [screen deviceDescription];
-    CGSize displayPhysicalSize = CGDisplayScreenSize(
-                                                     [[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
+    CGSize displayPhysicalSize = CGDisplayScreenSize([[description objectForKey:@"NSScreenNumber"] unsignedIntValue]);
     NSSize displayPointsSize = [screen frame].size;
     _pointsPerMeter = (displayPhysicalSize.width * 0.001) / displayPointsSize.width;
     
