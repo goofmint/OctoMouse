@@ -24,16 +24,16 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
     if(self)
     {
         _globalLogger = [[InputEventsLogger alloc] initWithIdentifier:@"global"];
-        [_globalLogger load];
+//        [_globalLogger load];
 
         NSDate *now = [[NSDate alloc] init];
         NSString *today = [self formatDate:now];
         _todayLogger = [[InputEventsLogger alloc] initWithIdentifier:today];
-        [_todayLogger load];
+//        [_todayLogger load];
 
         NSString *yesterday = [self formatDate:now];
         _yesterdayLogger = [[InputEventsLogger alloc] initWithIdentifier:yesterday];
-        [_yesterdayLogger load];
+//        [_yesterdayLogger load];
     }
 
     return self;
@@ -146,8 +146,12 @@ const char* keyCodeToReadableString (CGKeyCode keyCode);
 
 - (void)incElapsedSecond:(NSTimer*)timer {
     [_globalLogger incElapsedSecond];
-    [_todayLogger incElapsedSecond];
-    [_yesterdayLogger incElapsedSecond];
+    if([self->_todayLogger getStatus]) {
+        [_todayLogger incElapsedSecond];
+    }
+    else {
+        [_yesterdayLogger incElapsedSecond];
+    }
     [self notify];
 
     if([_globalLogger elapsedTime] % 60 == 0) {
